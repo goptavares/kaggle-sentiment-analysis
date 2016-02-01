@@ -12,6 +12,7 @@ from sklearn.cross_validation import cross_val_score
 
 import util
 
+
 X_train, Y_train, X_test = util.loadData()
 
 # Simple decision tree.

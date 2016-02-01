@@ -22,13 +22,13 @@ penaltyRange = np.arange(0.005, 3., 0.01)
 errorTrain = list()
 errorCrossVal = list()
 for penalty in penaltyRange:
-	clf = svm.SVC(C=penalty)
+    clf = svm.SVC(C=penalty)
 
-	scores = cross_val_score(clf, X_train, Y_train)
-	errorCrossVal.append((1 - scores.mean()) * 100)
+    scores = cross_val_score(clf, X_train, Y_train)
+    errorCrossVal.append((1 - scores.mean()) * 100)
 
-	clf = clf.fit(X_train, Y_train)
-	errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
+    clf = clf.fit(X_train, Y_train)
+    errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
 
 minIndex, minValue = min(enumerate(errorCrossVal), key=operator.itemgetter(1))
 print("Min cross validation error: " + str(minValue))

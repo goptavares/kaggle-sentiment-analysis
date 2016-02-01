@@ -27,7 +27,7 @@ clf2.fit(X_train, Y_train)
 
 # Random forest with min leaf node size.
 clf3 = RandomForestClassifier(n_estimators=100, criterion='gini',
-						      min_samples_leaf=2)
+                              min_samples_leaf=2)
 clf3.fit(X_train, Y_train)
 
 # Random forest with max tree depth.

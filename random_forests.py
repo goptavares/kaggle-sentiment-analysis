@@ -21,14 +21,14 @@ leafNodeSizeRange = range(1, 101)
 errorTrain = list()
 errorCrossVal = list()
 for minLeafNodeSize in leafNodeSizeRange:
-	clf = RandomForestClassifier(n_estimators=100, criterion='gini',
-								 min_samples_leaf=minLeafNodeSize)
+    clf = RandomForestClassifier(n_estimators=100, criterion='gini',
+                                 min_samples_leaf=minLeafNodeSize)
 
-	scores = cross_val_score(clf, X_train, Y_train)
-	errorCrossVal.append((1 - scores.mean()) * 100)
+    scores = cross_val_score(clf, X_train, Y_train)
+    errorCrossVal.append((1 - scores.mean()) * 100)
 
-	clf = clf.fit(X_train, Y_train)
-	errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
+    clf = clf.fit(X_train, Y_train)
+    errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
 
 minIndex, minValue = min(enumerate(errorCrossVal), key=operator.itemgetter(1))
 print("Min cross validation error: " + str(minValue))
@@ -45,7 +45,7 @@ plt.show()
 
 # Use the optimal classifier to predict on the test dataset.
 clf = RandomForestClassifier(n_estimators=100, criterion='gini',
-						     min_samples_leaf=optimLeafNodeSize)
+                             min_samples_leaf=optimLeafNodeSize)
 clf = clf.fit(X_train, Y_train)
 util.writeData(clf.predict(X_test))
 
@@ -55,14 +55,14 @@ maxDepthRange = range(2, 101)
 errorTrain = list()
 errorCrossVal = list()
 for maxTreeDepth in maxDepthRange:
-	clf = RandomForestClassifier(n_estimators=100, criterion='gini',
-								 max_depth=maxTreeDepth)
+    clf = RandomForestClassifier(n_estimators=100, criterion='gini',
+                                 max_depth=maxTreeDepth)
 
-	scores = cross_val_score(clf, X_train, Y_train)
-	errorCrossVal.append((1 - scores.mean()) * 100)
+    scores = cross_val_score(clf, X_train, Y_train)
+    errorCrossVal.append((1 - scores.mean()) * 100)
 
-	clf = clf.fit(X_train, Y_train)
-	errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
+    clf = clf.fit(X_train, Y_train)
+    errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
 
 minIndex, minValue = min(enumerate(errorCrossVal), key=operator.itemgetter(1))
 print("Min cross validation error: " + str(minValue))
@@ -79,10 +79,9 @@ plt.show()
 
 # Use the optimal classifier to predict on the test dataset.
 clf = RandomForestClassifier(n_estimators=100, criterion='gini',
-						     max_depth=optimTreeDepth)
+                             max_depth=optimTreeDepth)
 clf = clf.fit(X_train, Y_train)
 util.writeData(clf.predict(X_test))
-
 
 # Optimal min leaf node size: 2
 # Optimal max tree depth: 62

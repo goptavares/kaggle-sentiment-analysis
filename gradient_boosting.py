@@ -24,15 +24,15 @@ errorTrain = list()
 errorCrossVal = list()
 models = list()
 for numEstimators in numEstimatorsRange:
-	for maxDepth in maxDepthRange:
-		models.append((numEstimators, maxDepth))
-		clf = GradientBoostingClassifier(n_estimators=numEstimators,
-										 max_depth=maxDepth)
-		scores = cross_val_score(clf, X_train, Y_train)
-		errorCrossVal.append((1 - scores.mean()) * 100)
+    for maxDepth in maxDepthRange:
+        models.append((numEstimators, maxDepth))
+        clf = GradientBoostingClassifier(n_estimators=numEstimators,
+                                         max_depth=maxDepth)
+        scores = cross_val_score(clf, X_train, Y_train)
+        errorCrossVal.append((1 - scores.mean()) * 100)
 
-		clf = clf.fit(X_train, Y_train)
-		errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
+        clf = clf.fit(X_train, Y_train)
+        errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
 
 minIndex, minValue = min(enumerate(errorCrossVal), key=operator.itemgetter(1))
 print("Min cross validation error: " + str(minValue))
@@ -41,6 +41,6 @@ print("Optimal number of estimators and max tree depth: " + str(optimParams))
 
 # Use the optimal classifier to predict on the test dataset.
 clf = GradientBoostingClassifier(n_estimators=optimParams[0],
-						 		 max_depth=optimParams[1])
+                                 max_depth=optimParams[1])
 clf = clf.fit(X_train, Y_train)
 util.writeData(clf.predict(X_test))

@@ -24,15 +24,15 @@ errorTrain = list()
 errorCrossVal = list()
 models = list()
 for numEstimators in numEstimatorsRange:
-	for learningRate in learningRateRange:
-		models.append((numEstimators, learningRate))
-		clf = AdaBoostClassifier(n_estimators=numEstimators,
-								 learning_rate=learningRate)
-		scores = cross_val_score(clf, X_train, Y_train)
-		errorCrossVal.append((1 - scores.mean()) * 100)
+    for learningRate in learningRateRange:
+        models.append((numEstimators, learningRate))
+        clf = AdaBoostClassifier(n_estimators=numEstimators,
+                                 learning_rate=learningRate)
+        scores = cross_val_score(clf, X_train, Y_train)
+        errorCrossVal.append((1 - scores.mean()) * 100)
 
-		clf = clf.fit(X_train, Y_train)
-		errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
+        clf = clf.fit(X_train, Y_train)
+        errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
 
 minIndex, minValue = min(enumerate(errorCrossVal), key=operator.itemgetter(1))
 print("Min cross validation error: " + str(minValue))
@@ -41,9 +41,9 @@ print("Optimal number of estimators and learning rate: " + str(optimParams))
 
 # Use the optimal classifier to predict on the test dataset.
 clf = AdaBoostClassifier(n_estimators=optimParams[0],
-						 learning_rate=optimParams[1])
+                         learning_rate=optimParams[1])
 clf = clf.fit(X_train, Y_train)
 util.writeData(clf.predict(X_test))
 
-# # Optimal number of estimators: 170
-# # Optimal learning rate: 0.85
+# Optimal number of estimators: 170
+# Optimal learning rate: 0.85
