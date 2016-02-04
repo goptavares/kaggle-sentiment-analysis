@@ -27,7 +27,7 @@ for penalty in penaltyRange:
     scores = cross_val_score(clf, X_train, Y_train)
     errorCrossVal.append((1 - scores.mean()) * 100)
 
-    clf = clf.fit(X_train, Y_train)
+    clf.fit(X_train, Y_train)
     errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
 
 minIndex, minValue = min(enumerate(errorCrossVal), key=operator.itemgetter(1))
@@ -37,7 +37,7 @@ print("Optimal penalty parameter: " + str(optimPenalty))
 
 # Use the optimal classifier to predict on the test dataset.
 clf = svm.SVC(C=optimPenalty)
-clf = clf.fit(X_train, Y_train)
+clf.fit(X_train, Y_train)
 util.writeData(clf.predict(X_test))
 
 # Optimal penalty parameter for SVC: 2.915

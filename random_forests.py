@@ -27,7 +27,7 @@ for minLeafNodeSize in leafNodeSizeRange:
     scores = cross_val_score(clf, X_train, Y_train)
     errorCrossVal.append((1 - scores.mean()) * 100)
 
-    clf = clf.fit(X_train, Y_train)
+    clf.fit(X_train, Y_train)
     errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
 
 minIndex, minValue = min(enumerate(errorCrossVal), key=operator.itemgetter(1))
@@ -46,7 +46,7 @@ plt.show()
 # Use the optimal classifier to predict on the test dataset.
 clf = RandomForestClassifier(n_estimators=100, criterion='gini',
                              min_samples_leaf=optimLeafNodeSize)
-clf = clf.fit(X_train, Y_train)
+clf.fit(X_train, Y_train)
 util.writeData(clf.predict(X_test))
 
 # Perform cross validation to find the optimal max tree depth, in order to
@@ -61,7 +61,7 @@ for maxTreeDepth in maxDepthRange:
     scores = cross_val_score(clf, X_train, Y_train)
     errorCrossVal.append((1 - scores.mean()) * 100)
 
-    clf = clf.fit(X_train, Y_train)
+    clf.fit(X_train, Y_train)
     errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
 
 minIndex, minValue = min(enumerate(errorCrossVal), key=operator.itemgetter(1))
@@ -80,7 +80,7 @@ plt.show()
 # Use the optimal classifier to predict on the test dataset.
 clf = RandomForestClassifier(n_estimators=100, criterion='gini',
                              max_depth=optimTreeDepth)
-clf = clf.fit(X_train, Y_train)
+clf.fit(X_train, Y_train)
 util.writeData(clf.predict(X_test))
 
 # Optimal min leaf node size: 2

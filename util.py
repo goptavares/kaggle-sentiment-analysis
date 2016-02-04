@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-decision_trees.py
+util.py
 Authors: Gabriela Tavares,      gtavares@caltech.edu
          Juri Minxha,           jminxha@caltech.edu
 """
