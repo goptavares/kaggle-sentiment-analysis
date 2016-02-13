@@ -5,8 +5,10 @@ decision_trees.py
 Authors: Gabriela Tavares,      gtavares@caltech.edu
          Juri Minxha,           jminxha@caltech.edu
 """
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+import operator
+
 from sklearn import tree
 from sklearn.cross_validation import cross_val_score
 
@@ -15,16 +17,42 @@ import util
 
 X_train, Y_train, X_test = util.loadData()
 
-# Simple decision tree.
-error_train = list()
-error_test = list()
-for i in xrange(10,13):
-    clf = tree.DecisionTreeClassifier(criterion="gini", min_samples_leaf=i)
-    clf.fit(X_train, Y_train)
-    error_train.append((1 - clf.score(X_train, Y_train)) * 100)
+minSamplesLeafRange = range(1, 20)
+scoreCrossVal = list()
+for minSamplesLeaf in minSamplesLeafRange:
+    print("Running model " + str(minSamplesLeaf) + "...")
+    clf = tree.DecisionTreeClassifier(criterion="gini",
+                                      min_samples_leaf=minSamplesLeaf)
+    scores = cross_val_score(clf, X_train, Y_train)
+    scoreCrossVal.append(scores.mean())
+index, val = max(enumerate(scoreCrossVal), key=operator.itemgetter(1))
+print("Max cross validation score: " + str(val))
+optimMinSamplesLeaf = minSamplesLeafRange[index]
+print("Optimal minimum samples in leaf: " + str(optimMinSamplesLeaf))
+
 plt.figure()
-plt.plot(range(10,13), error_train)
-plt.xlabel('Min leaf node size')
-plt.ylabel('Error %')
-plt.legend(['Training', 'Test'], loc='lower right')
+plt.plot(minSamplesLeafRange, scoreCrossVal)
+plt.xlabel('Minimum samples in leaf node')
+plt.ylabel('Cross validation score')
+plt.title('Decision Tree')
+plt.show()
+
+maxDepthRange = range(5, 100, 5)
+scoreCrossVal = list()
+for maxDepth in maxDepthRange:
+    print("Running model " + str(maxDepth) + "...")
+    clf = tree.DecisionTreeClassifier(criterion="gini",
+                                      max_depth=maxDepth)
+    scores = cross_val_score(clf, X_train, Y_train)
+    scoreCrossVal.append(scores.mean())
+index, val = max(enumerate(scoreCrossVal), key=operator.itemgetter(1))
+print("Max cross validation score: " + str(val))
+optimMaxDepth = maxDepthRange[index]
+print("Optimal max depth: " + str(optimMaxDepth))
+
+plt.figure()
+plt.plot(maxDepthRange, scoreCrossVal)
+plt.xlabel('Maximum tree depth')
+plt.ylabel('Cross validation score')
+plt.title('Decision Tree')
 plt.show()

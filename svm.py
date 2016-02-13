@@ -5,39 +5,37 @@ svm.py
 Authors: Gabriela Tavares,      gtavares@caltech.edu
          Juri Minxha,           jminxha@caltech.edu
 """
+import matplotlib.pyplot as plt
 import numpy as np
 import operator
+
 from sklearn import svm
 from sklearn.cross_validation import cross_val_score
 
 import util
 
 
-X_train, Y_train, X_test = util.loadData()
+X_train, Y_train, X_test = util.loadData(normalize=True)
 
-# SVC.
+# SVC with RBF kernel.
 # Perform cross validation to find the optimal penalty parameter, in order to
 # avoid overfitting.
-penaltyRange = np.arange(0.005, 3., 0.01)
-errorTrain = list()
-errorCrossVal = list()
+penaltyRange = np.arange(1.5, 3, 0.1)
+scoreCrossVal = list()
 for penalty in penaltyRange:
-    clf = svm.SVC(C=penalty)
-
+    print("Running model " + str(penalty) + "...")
+    clf = svm.SVC(C=penalty, kernel='rbf')
     scores = cross_val_score(clf, X_train, Y_train)
-    errorCrossVal.append((1 - scores.mean()) * 100)
+    scoreCrossVal.append( scores.mean())
 
-    clf.fit(X_train, Y_train)
-    errorTrain.append((1 - clf.score(X_train, Y_train)) * 100)
-
-minIndex, minValue = min(enumerate(errorCrossVal), key=operator.itemgetter(1))
-print("Min cross validation error: " + str(minValue))
-optimPenalty = penaltyRange[minIndex]
+index, val = max(enumerate(scoreCrossVal), key=operator.itemgetter(1))
+print("Max cross validation score: " + str(val))
+optimPenalty = penaltyRange[index]
 print("Optimal penalty parameter: " + str(optimPenalty))
 
-# Use the optimal classifier to predict on the test dataset.
-clf = svm.SVC(C=optimPenalty)
-clf.fit(X_train, Y_train)
-util.writeData(clf.predict(X_test))
-
-# Optimal penalty parameter for SVC: 2.915
+plt.figure()
+plt.plot(penaltyRange, scoreCrossVal)
+plt.xlabel('Penalty parameter of error term')
+plt.ylabel('Cross validation score')
+plt.title('SVM')
+plt.show()

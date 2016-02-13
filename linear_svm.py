@@ -7,6 +7,7 @@ Authors: Gabriela Tavares,      gtavares@caltech.edu
 """
 import numpy as np
 import operator
+
 from sklearn import svm
 from sklearn.cross_validation import cross_val_score
 
@@ -40,6 +41,3 @@ print("Optimal penalty parameter: " + str(optimPenalty))
 clf = svm.SVC(C=optimPenalty)
 clf.fit(X_train, Y_train)
 util.writeData(clf.predict(X_test))
-
-# Optimal penalty parameter for Linear SVC: 0.007 (for L2 penalty)
-# Optimal penalty parameter for Linear SVC: 0.19 (for L1 penalty)

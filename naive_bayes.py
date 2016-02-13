@@ -5,10 +5,10 @@ naive_bayes.py
 Authors: Gabriela Tavares,      gtavares@caltech.edu
          Juri Minxha,           jminxha@caltech.edu
 """
-from sklearn.naive_bayes import MultinomialNB
-import util
 from scipy.stats import binom_test
+from sklearn.naive_bayes import MultinomialNB
 
+import util
 
 # Load the training data.
 X_train, Y_train, X_test = util.loadData()
